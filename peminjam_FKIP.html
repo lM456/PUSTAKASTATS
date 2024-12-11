@@ -21,7 +21,7 @@
               <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Beranda</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link active"><i class="fas fa-users"></i> Data FKIP</a>
+              <a href="#" class="nav-link active"><i class="fas fa-users"></i> Data FKIP</a>
             </li>
           </ul>
         </div>
@@ -30,191 +30,47 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="container my-4">
           <h2 class="text-center mb-4">Data Peminjaman Buku FKIP</h2>
-          <!-- Form Input Data -->
-          <div class="card mb-4">
-            <div class="card-header bg-primary text-white">Tambah Data Peminjaman</div>
-            <div class="card-body">
-              <form id="dataForm">
-                <div class="mb-3">
-                  <label for="tahun" class="form-label">Tahun</label>
-                  <input type="number" class="form-control" id="tahun" placeholder="Masukkan Tahun" required>
-                </div>
-                <div class="mb-3">
-                  <label for="bulan" class="form-label">Bulan</label>
-                  <select class="form-control" id="bulan" required>
-                    <option value="">Pilih Bulan</option>
-                    <option>Januari</option>
-                    <option>Februari</option>
-                    <option>Maret</option>
-                    <option>April</option>
-                    <option>Mei</option>
-                    <option>Juni</option>
-                    <option>Juli</option>
-                    <option>Agustus</option>
-                    <option>September</option>
-                    <option>Oktober</option>
-                    <option>November</option>
-                    <option>Desember</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="jumlah" class="form-label">Jumlah Peminjaman</label>
-                  <input type="number" class="form-control" id="jumlah" placeholder="Masukkan Jumlah Kunjungan" required>
-                </div>
-                <button type="submit" class="btn btn-success">Tambah Data</button>
-              </form>
-            </div>
-          </div>
-          <!-- Tabel Data -->
-          <table class="table table-striped table-bordered" id="dataTable">
-            <thead class="table-primary">
-              <tr>
-                <th>Tahun</th>
-                <th>Bulan</th>
-                <th>Jumlah Peminjaman</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>2024</td>
-                <td>Januari</td>
-                <td>99</td>
-                <td><button class="btn btn-danger btn-sm hapus-btn">Hapus</button></td>
-              </tr>
-              <tr>
-                <td>2024</td>
-                <td>Februari</td>
-                <td>135</td>
-                <td><button class="btn btn-danger btn-sm hapus-btn">Hapus</button></td>
-              </tr>
-              <tr>
-                <td>2024</td>
-                <td>Maret</td>
-                <td>399</td>
-                <td><button class="btn btn-danger btn-sm hapus-btn">Hapus</button></td>
-              </tr>
-              <tr>
-                <td>2024</td>
-                <td>April</td>
-                <td>84</td>
-                <td><button class="btn btn-danger btn-sm hapus-btn">Hapus</button></td>
-              </tr>
-              <tr>
-                <td>2024</td>
-                <td>Mei</td>
-                <td>242</td>
-                <td><button class="btn btn-danger btn-sm hapus-btn">Hapus</button></td>
-              </tr>
-            </tbody>
-          </table>
 
-          <!-- Tombol Analisis -->
-          <div class="text-center mt-4">
-            <button class="btn btn-primary" id="showAnalysis">Tampilkan Analisis</button>
-          </div>
-
-          <!-- Grafik Analisis -->
-          <div class="mt-5" id="chartContainer" style="display:none;">
-            <h3 class="text-center">Grafik Analisis Jumlah Peminjaman</h3>
-            <canvas id="barChart"></canvas>
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
-
-  <script>
-    const ctxBar = document.getElementById('barChart').getContext('2d');
-    let barChart;
-
-    // Inisialisasi Chart
-    function createBarChart(labels, data) {
-      if (barChart) barChart.destroy(); // Hancurkan grafik lama jika ada
-      barChart = new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Jumlah Kunjungan',
-            data: data,
-            backgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
-        }
-      });
-    }
-
-    // Update Grafik dengan Data Tabel
-    function updateChartFromTable() {
-      const table = document.getElementById('dataTable').querySelector('tbody');
-      const rows = table.querySelectorAll('tr');
-      const labels = [];
-      const data = [];
-
-      rows.forEach(row => {
-        const bulan = row.cells[1].textContent;
-        const jumlah = parseInt(row.cells[2].textContent);
-        labels.push(bulan);
-        data.push(jumlah);
-      });
-
-      createBarChart(labels, data);
-    }
-
-    // Tombol Analisis
-    document.getElementById('showAnalysis').addEventListener('click', () => {
-      updateChartFromTable();
-      document.getElementById('chartContainer').style.display = 'block';
-    });
-
-    // Tambah Data
-    document.getElementById('dataForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const tahun = document.getElementById('tahun').value;
-      const bulan = document.getElementById('bulan').value;
-      const jumlah = document.getElementById('jumlah').value;
-
-      if (!tahun || !bulan || !jumlah) {
-        alert("Semua field harus diisi!");
-        return;
-      }
-
-      const table = document.getElementById('dataTable').querySelector('tbody');
-      const newRow = table.insertRow();
-      newRow.innerHTML = `
-        <td>${tahun}</td>
-        <td>${bulan}</td>
-        <td>${jumlah}</td>
-        <td><button class="btn btn-danger btn-sm hapus-btn">Hapus</button></td>
-      `;
-
-      newRow.querySelector('.hapus-btn').addEventListener('click', function () {
-        hapusBaris(this);
-      });
-
-      document.getElementById('dataForm').reset();
-    });
-
-    // Hapus Data
-    function hapusBaris(button) {
-      const row = button.closest('tr');
-      const tahun = row.cells[0].textContent;
-      const bulan = row.cells[1].textContent;
-
-      const confirmDelete = confirm(`Anda yakin ingin menghapus data untuk ${bulan} ${tahun}?`);
-      if (confirmDelete) {
-        row.remove();
-      }
-    }
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+                    <!-- Form Input Data -->
+                    <div class="card mb-4">
+                      <div class="card-header bg-primary text-white">Tambah Data Peminjaman</div>
+                      <div class="card-body">
+                        <form id="dataForm" action="PHP/submit_data.php" method="POST">
+                          <div class="mb-3">
+                            <label for="tahun" class="form-label">Tahun</label>
+                            <input type="number" class="form-control" id="tahun" name="tahun" placeholder="Masukkan Tahun" required>
+                          </div>
+                          <div class="mb-3">
+                            <label for="bulan" class="form-label">Bulan</label>
+                            <select class="form-control" id="bulan" name="bulan" required>
+                              <option value="">Pilih Bulan</option>
+                              <option value="Januari">Januari</option>
+                              <option value="Februari">Februari</option>
+                              <option value="Maret">Maret</option>
+                              <option value="April">April</option>
+                              <option value="Mei">Mei</option>
+                              <option value="Juni">Juni</option>
+                              <option value="Juli">Juli</option>
+                              <option value="Agustus">Agustus</option>
+                              <option value="September">September</option>
+                              <option value="Oktober">Oktober</option>
+                              <option value="November">November</option>
+                              <option value="Desember">Desember</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="jumlah" class="form-label">Jumlah Peminjaman</label>
+                            <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Peminjaman" required>
+                          </div>
+                          <button type="submit" class="btn btn-success">Tambah Data</button>
+                        </form>
+                      </div>
+                    </div>
+          
+                    <!-- Tombol Analisis -->
+                    <div class="d-flex justify-content-center my-4">
+                      <button id="analyzeButton" class="btn btn-info">
+                        <i class="fas fa-chart-bar"></i> Analisis Data
+                      </button>
+                    </div>
+          
