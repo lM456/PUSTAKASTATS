@@ -6,7 +6,6 @@
   <title>Data Peminjaman Buku FEBM</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="CSS/styles1.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -21,7 +20,7 @@
               <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Beranda</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link active"><i class="fas fa-users"></i> Data FEBM</a>
+              <a href="#" class="nav-link active"><i class="fas fa-users"></i> Data FEBM</a>
             </li>
           </ul>
         </div>
@@ -30,6 +29,7 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="container my-4">
           <h2 class="text-center mb-4">Data Peminjaman Buku FEBM</h2>
+
           <!-- Form Input Data -->
           <div class="card mb-4">
             <div class="card-header bg-primary text-white">Tambah Data Peminjaman</div>
@@ -59,18 +59,84 @@
                 </div>
                 <div class="mb-3">
                   <label for="jumlah" class="form-label">Jumlah Peminjaman</label>
-                  <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Kunjungan" required>
+                  <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Peminjaman" required>
                 </div>
                 <button type="submit" class="btn btn-success">Tambah Data</button>
               </form>
             </div>
+          </div>
+
+          <!-- Tabel Data -->
+          <table class="table table-striped table-bordered" id="dataTable">
+            <thead class="table-primary">
+              <tr>
+                <th>Tahun</th>
+                <th>Bulan</th>
+                <th>Jumlah Peminjaman</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Data diisi otomatis dari PHP -->
+            </tbody>
+          </table>
+
+          <!-- Tombol Analisis -->
+          <div class="text-center mt-4">
+            <button class="btn btn-primary" id="showAnalysis">Tampilkan Analisis</button>
+          </div>
+
+          <!-- Grafik Analisis -->
+          <div class="mt-5" id="chartContainer" style="display:none;">
+            <h3 class="text-center">Grafik Analisis Jumlah Peminjaman</h3>
+            <canvas id="barChart"></canvas>
           </div>
         </div>
       </main>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    let barChart;
+
+    // Inisialisasi Chart.js
+    function createBarChart(labels, data) {
+      if (barChart) barChart.destroy(); // Hancurkan grafik lama jika ada
+      barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Jumlah Peminjaman',
+            data: data,
+            backgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    // Ambil data dari PHP untuk grafik
+    function fetchDataAndRenderChart() {
+      fetch('fetch_data.php')
+        .then(response => response.json())
+        .then(data => {
+          const labels = data.map(item => item.bulan);
+          const jumlah = data.map(item => item.jumlah);
+          createBarChart(labels, jumlah);
+          document.getElementById('chartContainer').style.display = 'block';
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // Event listener untuk tombol analisis
+    document.getElementById('showAnalysis').addEventListener('click', fetchDataAndRenderChart);
+  </script>
 </body>
 </html>
 
