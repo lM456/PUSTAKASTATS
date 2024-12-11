@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Analitik dengan Apriori</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="CSS/styles2.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block sidebar bg-light">
+        <div class="sidebar-sticky">
+          <h4 class="text-center py-3">Pustakastats UMRAH</h4>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Beranda</a>
+            </li>
+            <li class="nav-item">
+              <a href="" class="nav-link active"><i class="fas fa-chart-bar"></i> Analitik</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
+        <div class="container my-4">
+          <h2 class="text-center mb-4">Dashboard Analitik dengan Apriori</h2>
+
+          <!-- Input File -->
+          <div class="mb-4">
+            <label for="uploadKunjungan" class="form-label">Unggah Data Kunjungan dan Peminjaman (CSV):</label>
+            <input type="file" id="uploadKunjungan" class="form-control">
+          </div>
+
+          <!-- Tabel Data -->
+          <div class="row">
+            <div class="col-md-6">
+              <!-- Tabel Data Kunjungan -->
+              <div class="card mb-4">
+                <div class="card-header bg-primary text-white">Data Kunjungan</div>
+                <div class="card-body">
+                  <table class="table table-striped" id="kunjunganTable">
+                    <thead class="table-primary">
+                      <tr>
+                        <th>Fakultas</th>
+                        <th>Bulan</th>
+                        <th>Jumlah Kunjungan</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <!-- Tabel Data Peminjaman -->
+              <div class="card mb-4">
+                <div class="card-header bg-primary text-white">Data Peminjaman</div>
+                <div class="card-body">
+                  <table class="table table-striped" id="peminjamanTable">
+                    <thead class="table-primary">
+                      <tr>
+                        <th>Fakultas</th>
+                        <th>Bulan</th>
+                        <th>Jumlah Peminjaman</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol Analisis -->
+          <div class="text-center mb-4">
+            <button class="btn btn-success" id="runApriori">Analisis dengan Apriori</button>
+          </div>
+
+          <!-- Grafik -->
+          <div id="chartContainer" style="display: none;">
+            <h3 class="text-center">Grafik Analitik</h3>
+            <canvas id="barChart" class="mb-4"></canvas>
+          </div>
+
+          <!-- Grafik Tren -->
+          <div id="trendChartContainer" class="mb-5">
+            <h3 class="text-center">Grafik Tren Pengunjung dan Peminjam</h3>
+            <canvas id="trendChart"></canvas>
+          </div>
+
+          <!-- Hasil Analisis -->
+          <div id="summaryContainer" style="display: none;">
+            <h3 class="text-center">Ringkasan Hasil Analisis</h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr class="table-primary">
+                  <th>Itemset</th>
+                  <th>Frekuensi</th>
+                  <th>Support</th>
+                </tr>
+              </thead>
+              <tbody id="summaryTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    let transactions = []; // Untuk menyimpan data transaksi dari CSV
+
+    // Fungsi membaca file CSV
+    function readCSV(file, callback) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const lines = e.target.result.split('\n').map(line => line.split(','));
+        callback(lines);
+      };
+      reader.readAsText(file);
+    }
+
+    // Fungsi untuk unggah file dan proses CSV
+    document.getElementById('uploadKunjungan').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      readCSV(file, (data) => {
+        transactions = data.slice(1).map(row => ({
+          fakultas: row[0],
+          bulan: row[1],
+          kunjungan: parseInt(row[2]),
+          peminjaman: parseInt(row[3])
+        }));
+        alert('Data berhasil diunggah!');
+      });
+    });
+
+    // Algoritma Apriori
+    function apriori(transactions, minSupport) {
+      const itemsets = {};
+      const totalTransactions = transactions.length;
+
+      // Langkah 1: Hitung frekuensi itemset
+      transactions.forEach(({ kunjungan, peminjaman }) => {
+        const key = `K:${kunjungan}-P:${peminjaman}`;
+        itemsets[key] = (itemsets[key] || 0) + 1;
+      });
+
+      // Langkah 2: Filter itemset berdasarkan minimum support
+      const frequentItemsets = Object.entries(itemsets).filter(([_, freq]) => freq / totalTransactions >= minSupport);
+
+      return frequentItemsets.map(([itemset, frequency]) => ({
+        itemset,
+        frequency,
+        support: (frequency / totalTransactions * 100).toFixed(2) + '%'
+      }));
+    }
+
+    // Fungsi untuk membuat grafik tren
+    function createTrendChart(data) {
+      const ctxTrend = document.getElementById('trendChart').getContext('2d');
+      new Chart(ctxTrend, {
+        type: 'line',
+        data: {
+          labels: data.labels,
+          datasets: [
+            {
+              label: 'Kunjungan',
+              data: data.kunjungan,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              fill: false
+            },
+            {
+              label: 'Peminjaman',
+              data: data.peminjaman,
+              borderColor: 'rgba(192, 75, 192, 1)',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    // Fungsi untuk menampilkan hasil analisis
+    function displayAprioriResults(results) {
+      const tableBody = document.getElementById('summaryTableBody');
+      tableBody.innerHTML = ''; // Hapus data sebelumnya
+      results.forEach(({ itemset, frequency, support }) => {
+        const row = `<tr>
+          <td>${itemset}</td>
+          <td>${frequency}</td>
+          <td>${support}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    // Tombol Analisis
+    document.getElementById('runApriori').addEventListener('click', () => {
+      const results = apriori(transactions, 0.1); // Minimum support 10%
+      displayAprioriResults(results);
+
+      const trendData = transactions.reduce((acc, { bulan, kunjungan, peminjaman }) => {
+        if (!acc.labels.includes(bulan)) acc.labels.push(bulan);
+        acc.kunjungan.push(kunjungan);
+        acc.peminjaman.push(peminjaman);
+        return acc;
+      }, { labels: [], kunjungan: [], peminjaman: [] });
+
+      createTrendChart(trendData);
+      document.getElementById('chartContainer').style.display = 'block';
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

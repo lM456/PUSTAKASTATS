@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pustakastats UMRAH - Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="CSS/styles.css"> <!-- Link ke file CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+ <!-- Modal Selamat Datang -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="welcomeModalLabel">
+          <i class="fas fa-smile"></i> Selamat Datang
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="UMRAH.gif" alt="Welcome Icon">
+        <h4>Selamat Datang di Pustakastats UMRAH</h4>
+        <p>Platform untuk memantau statistik kunjungan dan peminjaman buku.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Masuk ke Beranda</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block sidebar">
+        <div class="sidebar-sticky">
+          <h4 class="text-center py-3">
+            <!-- Logo added here -->
+            Pustakastats UMRAH
+          </h4>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Beranda</a>
+            </li>
+            <!-- Data Kunjungan Menu -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dataKunjungan" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-users"></i> Data Kunjungan
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dataKunjungan">
+                <li><a href="pengunjung_FKIP.html" class="dropdown-item"> FKIP</a></li>
+                <li><a href="pengunjung_FISIP.html" class="dropdown-item"> FISIP</a></li>
+                <li><a href="pengunjung_FEBM.html" class="dropdown-item"> FEBM</a></li>
+                <li><a href="pengunjung_FIKP.html" class="dropdown-item"> FIKP</a></li>
+                <li><a href="pengunjung_FTTK.html" class="dropdown-item"> FTTK</a></li>
+              </ul>
+            </li>
+            <!-- Data Peminjaman Menu -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dataPeminjaman" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-book"></i> Data Peminjaman
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dataPeminjaman">
+                <li><a href="peminjam_FKIP.html" class="dropdown-item"> FKIP</a></li>
+                <li><a href="peminjam_FISIP.html" class="dropdown-item"> FISIP</a></li>
+                <li><a href="peminjam_FEBM.html" class="dropdown-item"> FEBM</a></li>
+                <li><a href="peminjam_FIKP.html" class="dropdown-item"> FIKP</a></li>
+                <li><a href="peminjam_FTTK.html" class="dropdown-item"> FTTK</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="dashboard_analitik.html" class="nav-link"><i class="fas fa-chart-bar"></i> Dashboard Analitik</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h2 class="d-flex align-items-center">
+          <!-- Logo UMRAH -->
+          <img src="UMRAH.gif" alt="UMRAH Logo" style="width: 40px; height: 40px; margin-right: 10px;">
+          <span class="fw-bold">Selamat datang di Pustakastats UMRAH</span>
+        </h2>
+      </div>
+        <!-- Cards Section -->
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+              <div class="card-header">Total Kunjungan</div>
+              <div class="card-body">
+                <h5 class="card-title">22,886</h5>
+                <p class="card-text">Selama 6 Bulan</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+              <div class="card-header">Total Peminjaman</div>
+              <div class="card-body">
+                <h5 class="card-title">4,513</h5>
+                <p class="card-text">Selama 6 Bulan</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+              <div class="card-header">Fakultas Tertinggi</div>
+              <div class="card-body">
+                <h5 class="card-title">FEBM</h5>
+                <p class="card-text">Kunjungan Terbanyak</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-white bg-danger mb-3">
+              <div class="card-header">Kategori Populer</div>
+              <div class="card-body">
+                <h5 class="card-title">FEBM</h5>
+                <p class="card-text">Peminjaman Terbanyak</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-header">Grafik Kunjungan & Peminjaman</div>
+              <div class="card-body">
+                <canvas id="chartKunjungan"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card mb-4">
+              <div class="card-header">Distribusi Fakultas</div>
+              <div class="card-body">
+                <canvas id="chartFakultas"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Tampilkan modal setelah halaman selesai dimuat
+    window.onload = function () {
+      const welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {
+        backdrop: 'static', // Cegah pengguna menutup modal dengan klik di luar
+        keyboard: false     // Cegah pengguna menutup modal dengan tombol keyboard
+      });
+      welcomeModal.show();
+    };
+
+    // Grafik Kunjungan & Peminjaman
+    const ctx1 = document.getElementById('chartKunjungan').getContext('2d');
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'],
+        datasets: [
+          {
+            label: 'Kunjungan',
+            data: [1798, 2412, 6516, 1477, 5603, 5080],
+            borderColor: '#007bff',
+            borderWidth: 2,
+            fill: false,
+          },
+          {
+            label: 'Peminjaman',
+            data: [124, 246, 2346, 517, 793, 487],
+            borderColor: '#28a745',
+            borderWidth: 2,
+            fill: false,
+          },
+        ],
+      },
+    });
+
+    // Grafik Distribusi Fakultas
+    const ctx2 = document.getElementById('chartFakultas').getContext('2d');
+    new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: ['FKIP', 'FISIP', 'FEBM', 'FIKP', 'FTTK'],
+        datasets: [{
+          data: [32, 13, 47, 5, 3],
+          backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'],
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      }
+    });
+  </script>
+</body>
+</html>

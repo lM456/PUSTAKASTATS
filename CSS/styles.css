@@ -1,0 +1,210 @@
+/* Sidebar Styling */
+.sidebar {
+    background-color: #007bff;
+    color: rgb(255, 255, 255);
+    min-height: 100vh;
+    width: 250px; /* Lebarkan sidebar */
+    padding: 20px 15px; /* Menambahkan padding agar lebih rapi */
+    position: fixed; /* Agar sidebar tetap di posisi tetap saat scroll */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transition: all 0.3s ease; /* Animasi ketika lebar sidebar berubah */
+  }
+  
+  .sidebar h4 {
+    font-size: 1.4rem; /* Membuat teks header sedikit lebih besar */
+    font-weight: bold;
+    text-align: left; /* Memindahkan teks ke kiri */
+    padding: 15px;
+    background-color: #0056b3;
+    border-radius: 8px;
+    margin-left: 10px; /* Memberikan jarak pada teks agar tidak terlalu menempel */
+  }
+  
+  /* Sidebar Links */
+  .sidebar a {
+    color: rgb(78, 126, 181);
+    text-decoration: none;
+    padding: 12px 20px;
+    display: block;
+    margin-bottom: 5px; /* Memberikan jarak antar link */
+    border-radius: 4px;
+  }
+  
+  .sidebar a:hover {
+    background-color: #0161c7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Tambahkan efek shadow untuk hover */
+  }
+  
+  /* Modal Styling */
+  .modal-content {
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .modal-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: rgb(255, 251, 251);
+    border-bottom: none;
+    text-align: center;
+  }
+  
+  .modal-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-title i {
+    margin-right: 10px;
+  }
+  
+  .modal-body {
+    font-size: 1.2rem;
+    color: #000000;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .modal-body img {
+    max-width: 100px;
+    margin-bottom: 20px;
+  }
+  
+  .modal-footer {
+    border-top: none;
+    justify-content: center;
+  }
+  
+  .modal-footer .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-footer .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  .submenu, .dropdown-menu {
+    background-color: #1e3e8e; /* Ubah ini ke warna yang diinginkan */
+    color: #000000; /* Opsional: Ubah warna teks jika diperlukan */
+}
+  
+  /* Fade-In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Main Content Styling */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f6fcff;
+    margin-left: 260px; /* Menghindari overlap dengan sidebar */
+  }
+  
+  .card-header {
+    font-weight: bold;
+  }
+  
+  .card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Card Section Styling */
+  canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Card Section Margin Adjustment */
+  .row {
+    margin-top: 20px;
+  }
+  
+  /* Button Styling */
+  .btn-close {
+    color: rgb(0, 0, 0);
+    opacity: 0.8;
+  }
+  
+  .btn-close:hover {
+    color: rgb(25, 61, 103);
+    opacity: 1;
+  }
+  
+  /* Custom Card Styling */
+  .card-body {
+    padding: 15px;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #000000;
+  }
+  
+  /* Table or Color Boxes */
+  .color-boxes {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .color-box {
+    flex: 1;
+    height: 150px;
+    background-color: #007bff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .color-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Sidebar Links */
+  .sidebar a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    padding: 12px 20px;
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 4px;
+  }
+  
+  .sidebar a:hover {
+    background-color: #fcff3f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  

@@ -1,0 +1,146 @@
+/* Reset margin dan padding */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Warna latar halaman */
+}
+
+/* Sidebar Styling */
+.sidebar {
+    background-color: #007bff;
+    color: rgb(255, 255, 255);
+    min-height: 100vh;
+    width: 250px;
+    padding: 20px 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000; /* Tetapkan z-index tinggi untuk memastikan sidebar di atas elemen lain */
+}
+
+.sidebar h4 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: left;
+    padding: 15px;
+    background-color: #0056b3;
+    border-radius: 8px;
+    margin-left: 10px;
+}
+
+.sidebar a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    padding: 12px 20px;
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+.sidebar a:hover {
+    background-color: #ffee33;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Konten Utama */
+main {
+    margin-left: 270px; /* Tambahkan ruang dari sidebar */
+    padding: 30px; /* Padding untuk jarak internal */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Konten disejajarkan ke kiri */
+}
+
+/* Tabel */
+.table-container {
+    width: 100%;
+    max-width: 800px; /* Batasi lebar tabel */
+    margin: 0 auto; /* Tabel berada di tengah */
+    padding: 0 15px; /* Jarak dalam kontainer tabel */
+    text-align: center; /* Menyelaraskan teks tabel ke tengah */
+    margin-left: 20px; /* Tambahkan jarak dari sidebar */
+}
+
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+    margin-top: 5px;
+    justify-content: center;
+}
+
+
+.table th, .table td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.table td {
+    color: #333;
+}
+
+/* Grafik Section */
+.grafik-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Grafik akan melipat pada layar kecil */
+    justify-content: center; /* Grafik berada di tengah */
+    margin-top: 30px; /* Tambahkan jarak atas */
+}
+
+.grafik-container .card {
+    flex: 1 1 250px; /* Grafik memiliki lebar minimal */
+    max-width: 300px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.grafik-container .card h5 {
+    margin-bottom: 15px;
+    color: #007bff;
+}
+/* Chart container styling */
+#chartContainer {
+    width: 70%; /* Adjust width to shrink the chart */
+    margin: 0 auto; /* Center the chart */
+}
+
+canvas {
+    max-width: 100%;
+    height: auto; /* Ensure the chart is responsive */
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    main {
+        margin-left: 200px;
+    }
+
+    .grafik-container {
+        flex-direction: column; /* Grafik tampil vertikal */
+    }
+}
+
+/* Tambahkan jarak antara elemen */
+.hidden {
+    display: none;
+}
